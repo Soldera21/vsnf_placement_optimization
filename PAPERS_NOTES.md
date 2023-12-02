@@ -1,0 +1,4 @@
+## Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns
+1. Partizionamento significa avere dei blocchi del grafo contenenti il minimo numero di nodi che coinvolgono sorgente e destinazione?
+2. Segmentazione significa suddividere il dominio in sottodomini contenenti nodi che vogliono accedere alle stesse informazioni di sicurezza?
+3. Con SDPAP andiamo a piazzare i moduli di sicurezza nella stessa partizione di sorgente e destinazione con un algoritmo più efficiente di quelli usati attualmente per un problema NP-Hard. Non mi è ancora chiaro quale sia il ruolo dei requisiti di un determinato servizio nell'algoritmo di piazzamento.
