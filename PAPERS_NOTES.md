@@ -8,17 +8,18 @@ For every element of the risk assessment we assign a score that will be the weig
 Finally these concepts are summarized in a Java application named CryptoAC (which acts as a proxy) that needs to be installed on the user equipment to store user's key and get keys of the files that the user wants to access based on the policies.
 
 ##### Main Questions:
-
+How can the best architecture for storing and computing business data be choosen to balance costs and security requirements?
 
 ### A. Shameli-Sendi, Y. Jarraya, M. Pourzandi and M. Cheriet, "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns," in IEEE Transactions on Services Computing, vol. 12, no. 4, pp. 534-549, 1 July-Aug. 2019, doi: 10.1109/TSC.2016.2616867.
 In the context of microservice placement the security aspect is an important factor used to evalute the location, but many times it is under-estimated. The security requirements are based on a set of standard patterns. These patterns are chained together to compose the entire netwrok with all the security constraints. Every time a constraint is established it has to be satisfied with one or more patterns.
 
 The approach to find a new placement algortihm used in this paper is Security Defense Pattern Aware Placement (SDPAP). We base the computation on two initial steps before finding the optimal placement: partitioning and segmentation. In partitioning we compute independent blocks with different paths to go from the same source to the same destination. The final solution resides in one block and is not affected by this process. In segmentation we divide each block in generally three segments (source, destination and core) to exclude an incorrect placement hypothesis based on constraints. This is made to avoid unuseful attemps to place security functions.
 
-The final algorithm has been implemented in OpenStack and the performance is improved significantly making it almost real-time for a maximum network size of 69,696 nodes. After this limit the computation becomes difficult also for SDPAP.
+The final algorithm has been implemented in OpenStack and the performance is improved significantly making it almost real-time for a maximum network size of 69,696 nodes. After this limit, the computation becomes difficult also for SDPAP.
 
 ##### Main Questions:
-
+Can the security requirements aspect be considered when placing microservices?
+Can this also improve performances during service placement or at least maintain the same performance?
 
 ### R. Doriguzzi-Corin, S. Scott-Hayward, D. Siracusa, M. Savi and E. Salvadori, "Dynamic and Application-Aware Provisioning of Chained Virtual Security Network Functions," in IEEE Transactions on Network and Service Management, vol. 17, no. 1, pp. 294-307, March 2020, doi: 10.1109/TNSM.2019.2941128.
 In this paper a new algorithm is proposed to deploy chains of network functions based on security policies, computing capabilities of the network and the security service itself. The main differences with "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns" and this work are that before the algorithm is limited to fat-tree topology, needs to compute the complete flow and does not take into account the latency of the links.
@@ -26,7 +27,8 @@ In this paper a new algorithm is proposed to deploy chains of network functions 
 The Progressive Embedding of Security Services (PESS) algorithm computes the shortest path between source and destination to find all the possible nodes where a VSNF chain can be placed. The more enhanced version also considers high-capacity nodes and the path in both directions computing subpaths that are assembled. The choosen solution is based mainly on the metrics. Then latency and bandwidth are subtracted from the links used by the solution. The results are compared with PESS and standard Kubernetes on a random network, the Stanford University network and the GARR network and a significant boost of performance is evident.
 
 ##### Main Questions:
-
+Can the approach of computing the best placement based on security requirements be expanded to every type of network topology?
+Is it possible to think about a new algorithm to deploy VSNFs considering also the overhead of nodes and links?
 
 ### N. Moradi, A. Shameli-Sendi and A. Khajouei, "A Scalable Stateful Approach for Virtual Security Functions Orchestration," in IEEE Transactions on Parallel and Distributed Systems, vol. 32, no. 6, pp. 1383-1394, 1 June 2021, doi: 10.1109/TPDS.2021.3049804.
 The main focus of this paper is a stateful approach in service placement inside a data center with fat-tree topology. Before creating a new microservice the system evaluates the nodes where an existing service is running to try to assemble more than one together. This method can save resources and time that translates into money because in the end less functions are created and many time an accomodation is found for the service that we are deploying.
