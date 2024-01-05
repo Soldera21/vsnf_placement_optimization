@@ -3,7 +3,7 @@
 ### Stefano Berlato, Roberto Carbone, Adam J. Lee, and Silvio Ranise. 2021. "Formal Modelling and Automated Trade-off Analysis of Enforcement Architectures for Cryptographic Access Control in the Cloud." ACM Trans. Priv. Secur. 25, 1, Article 2 (February 2022), 37 pages. https://doi.org/10.1145/3474056
 Cryptographic Access Control (CAC) is an obvious solution for sharing data among an organization. In this paper a new scheme to select the best architecture for CAC is proposed to system administrators. The main focus is on understanding which data can reside in a private cloud or in a CPS's data center based on a risk assessment and the score of a set of trust assumptions.
 
-For every element of the risk assessment we assign a score that will be the weight of that attribute in the final decision about the archutecture to be used. To achieve this "Best" and "Ad Hoc" algorithm have been developed through a "what-if" analysis. This software can be used through a web dashboard. "Best" selects only the Pareto Optimal solutions and then it lets the administrator to choose the best solution for the organization (Multi-Dimensional Maximum Vector Problem). "Ad Hoc" the problem is taken to a single final solution which should be the best based on performance and risk exposure (Single-Objective Optimisation Problem). The complexity of "Ad Hoc" is significantly lower than "Best".
+For every element of the risk assessment we assign a score that will be the weight of that attribute in the final decision about the architecture to be used. To achieve this "Best" and "Ad Hoc" algorithm have been developed through a "what-if" analysis. This software can be used through a web dashboard. "Best" selects only the Pareto Optimal solutions and then it lets the administrator to choose the best solution for the organization (Multi-Dimensional Maximum Vector Problem). "Ad Hoc" the problem is taken to a single final solution which should be the best based on performance and risk exposure (Single-Objective Optimisation Problem). The complexity of "Ad Hoc" is significantly lower than "Best".
 
 Finally these concepts are summarized in a Java application named CryptoAC (which acts as a proxy) that needs to be installed on the user equipment to store user's key and get keys of the files that the user wants to access based on the policies.
 
@@ -22,7 +22,7 @@ Can the security requirements aspect be considered when placing microservices?
 Can this also improve performances during service placement or at least maintain the same performance?
 
 ### R. Doriguzzi-Corin, S. Scott-Hayward, D. Siracusa, M. Savi and E. Salvadori, "Dynamic and Application-Aware Provisioning of Chained Virtual Security Network Functions," in IEEE Transactions on Network and Service Management, vol. 17, no. 1, pp. 294-307, March 2020, doi: 10.1109/TNSM.2019.2941128.
-In this paper a new algorithm is proposed to deploy chains of network functions based on security policies, computing capabilities of the network and the security service itself. The main differences with "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns" and this work are that before the algorithm is limited to fat-tree topology, needs to compute the complete flow and does not take into account the latency of the links.
+In this paper a new algorithm is proposed to deploy chains of network functions based on security policies, computing capabilities of the network and the security services themselves. The main differences with "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns" and this work are that before the algorithm is limited to fat-tree topology, needs to compute the complete flow and does not take into account the latency of the links.
 
 The Progressive Embedding of Security Services (PESS) algorithm computes the shortest path between source and destination to find all the possible nodes where a VSNF chain can be placed. The more enhanced version also considers high-capacity nodes and the path in both directions computing subpaths that are assembled. The choosen solution is based mainly on the metrics. Then latency and bandwidth are subtracted from the links used by the solution. The results are compared with PESS and standard Kubernetes on a random network, the Stanford University network and the GARR network and a significant boost of performance is evident.
 
@@ -31,12 +31,12 @@ Can the approach of computing the best placement based on security requirements 
 Is it possible to think about a new algorithm to deploy VSNFs considering also the overhead of nodes and links?
 
 ### N. Moradi, A. Shameli-Sendi and A. Khajouei, "A Scalable Stateful Approach for Virtual Security Functions Orchestration," in IEEE Transactions on Parallel and Distributed Systems, vol. 32, no. 6, pp. 1383-1394, 1 June 2021, doi: 10.1109/TPDS.2021.3049804.
-The main focus of this paper is a stateful approach in service placement inside a data center with fat-tree topology. Before creating a new microservice the system evaluates the nodes where an existing service is running to try to assemble more than one together. This method can save resources and time that translates into money because in the end less functions are created and many time an accomodation is found for the service that we are deploying.
+The main focus of this paper is a stateful approach in service placement inside a data center with fat-tree topology. Before creating a new microservice the system evaluates the nodes where an existing service is running to try to assemble more than one together. This method can save resources and time that translates into money because in the end, less functions are created and many times an accomodation is found for the service that we are deploying.
 
-Another step that is done in this paper is to divide into zones the netwrok that we are analyzing. This results in a faster computation of the placement of the service. The negative note of zoning is that it does pre-processing and function for the same flow are created on different nodes. So this important aspect is excluded by the zoning algorithm.
+Another step that is done in this paper is to divide into zones the network that we are analyzing. This results in a faster computation of the placement of the service. The negative note of zoning is that it does pre-processing and sometimes functions for the same flow are created on different nodes. So this important aspect is excluded by the zoning algorithm.
 
 ##### Main Questions:
-Can we reuse an already existing VSNF if it can respect all my constraints?
+Can we reuse an already existing VSNF if it can respect all required constraints?
 Can this improve performance and reduce the cost?
 
 ### W. Qiao et al., "A Novel Method for Resource Efficient Security Service Chain Embedding Oriented to Cloud Datacenter Networks," in IEEE Access, vol. 9, pp. 77307-77324, 2021, doi: 10.1109/ACCESS.2021.3082644.
@@ -47,19 +47,23 @@ The approach is to first compute the best paths to go from source to destination
 The results show that the PSO algorithm finds a new solution that can optimize the deployment of SSCs with less resource comsuption, a better latency between nodes due to deploying not only in most powerful nodes but also taking into account the links and it has a lower complexity than the other algorithms analyzed.
 
 ##### Main Questions:
-How can we optimize SSC deployment and delay between functions using the precise requirements of every application and VSNF?
+How can we optimize SSC deployment and delay between functions using the precise requirements of every application and VSNF inside data centers?
 
 ### A. Bagheri and A. Shameli-Sendi, "Automating the Translation of Cloud Users’ High-Level Security Needs to an Optimal Placement Model in the Cloud Infrastructure," in IEEE Transactions on Services Computing, vol. 16, no. 6, pp. 4580-4590, Nov.-Dec. 2023, doi: 10.1109/TSC.2023.3327632.
+In this paper for the first time the problem of placing VNFs based on users' needs and cloud providers' placement objectives has been analyzed. The TUSNPM (Translating User’s Security Needs into the Placement Model) algorithm has been developed for fat-tree topology in data centers to understand which is the maximum number of nodes to have a function placement in almost real time.
 
+Results are based on five objectives (Max-N, Max-C, Max-CN, Max-C-Fixed-N, Max-N-Fixed-C) from the cloud provide side and QoS and cost from the user side. To test the performance of the algorithm three scenarios have been tested and when k goes over 32 the runtime becomes higher esponentially causing the computation hard to do in almost real time. Requirements are foundamentals to determine the final cost of the placement.
 
 ##### Main Questions:
-
+Can users' needs be satisfied when placing VNFs in fat-tree data centers?
 
 ### H. Wu, Y. Zhang, H. Yang, G. Yu and J. Cao, "Virtualized Security Function Placement for Security Service Chaining in Cloud," 2018 IEEE 24th International Conference on Parallel and Distributed Systems (ICPADS), Singapore, 2018, pp. 628-637, doi: 10.1109/PADSW.2018.8644566.
+This paper takes a new framework named MCE to compute VNF placement. First of all it does a check on the reachability of the nodes, then it simplifies the confilicting policies with the BSIS-RC algorithm based on bit sequence intersection computation.
 
+In the end six solutions are compared with three different algorithms with and without MCE in a fat-tree topology with 8 pods. MCE takes a great performance improvement in the success rate of the mapping algorithm when used. MCE takes also TBC reduction, but the mapping algorithm choosen is the main responsible for this value. Finally the best value of tau is 5 because over it the improvement becomes insignificant.
 
 ##### Main Questions:
-
+Can the performance of VNF be improved simplifying the requirement evaluation of each NF?
 
 ---
 ## Other Possibly Related Papers
