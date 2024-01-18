@@ -10,6 +10,9 @@ Finally these concepts are summarized in a Java application named CryptoAC (whic
 ##### Main Questions:
 How can the best architecture for storing and computing business data be choosen to balance costs and security requirements?
 
+##### Main Topics:
+- requirements: intended as requirements of the deployed application
+
 ### A. Shameli-Sendi, Y. Jarraya, M. Pourzandi and M. Cheriet, "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns," in IEEE Transactions on Services Computing, vol. 12, no. 4, pp. 534-549, 1 July-Aug. 2019, doi: 10.1109/TSC.2016.2616867.
 In the context of microservice placement the security aspect is an important factor used to evalute the location, but many times it is under-estimated. The security requirements are based on a set of standard patterns. These patterns are chained together to compose the entire netwrok with all the security constraints. Every time a constraint is established it has to be satisfied with one or more patterns.
 
@@ -21,6 +24,10 @@ The final algorithm has been implemented in OpenStack and the performance is imp
 Can the security requirements aspect be considered when placing microservices?
 Can this also improve performances during service placement or at least maintain the same performance?
 
+##### Main Topics:
+- performance: intended as performance of the algorithm
+- requirements: intended as requirements of the logic of the chain of NFs
+
 ### R. Doriguzzi-Corin, S. Scott-Hayward, D. Siracusa, M. Savi and E. Salvadori, "Dynamic and Application-Aware Provisioning of Chained Virtual Security Network Functions," in IEEE Transactions on Network and Service Management, vol. 17, no. 1, pp. 294-307, March 2020, doi: 10.1109/TNSM.2019.2941128.
 In this paper a new algorithm is proposed to deploy chains of network functions based on security policies, computing capabilities of the network and the security services themselves. The main differences with "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns" and this work are that before the algorithm is limited to fat-tree topology, needs to compute the complete flow and does not take into account the latency of the links.
 
@@ -30,14 +37,22 @@ The Progressive Embedding of Security Services (PESS) algorithm computes the sho
 Can the approach of computing the best placement based on security requirements be expanded to every type of network topology?
 Is it possible to think about a new algorithm to deploy VSNFs considering also the overhead of nodes and links?
 
+##### Main Topics:
+- performance: intended as performance of the links because delay and bandwidth are subtracted when a new service is added
+- requirements or policies: based on security best practices
+
 ### N. Moradi, A. Shameli-Sendi and A. Khajouei, "A Scalable Stateful Approach for Virtual Security Functions Orchestration," in IEEE Transactions on Parallel and Distributed Systems, vol. 32, no. 6, pp. 1383-1394, 1 June 2021, doi: 10.1109/TPDS.2021.3049804.
 The main focus of this paper is a stateful approach in service placement inside a data center with fat-tree topology. Before creating a new microservice the system evaluates the nodes where an existing service is running to try to assemble more than one together. This method can save resources and time that translates into money because in the end, less functions are created and many times an accomodation is found for the service that we are deploying.
 
-Another step that is done in this paper is to divide into zones the network that we are analyzing. This results in a faster computation of the placement of the service. The negative note of zoning is that it does pre-processing and sometimes functions for the same flow are created on different nodes. So this important aspect is excluded by the zoning algorithm.
+Another step that is done in this paper is to divide into zones the network that we are analyzing to overcome the problem that the algorithm is non-scalable. This results in a faster computation of the placement of the service. The negative note of zoning is that it does pre-processing and sometimes functions for the same flow are created on different nodes. So this important aspect is excluded by the zoning algorithm.
 
 ##### Main Questions:
 Can we reuse an already existing VSNF if it can respect all required constraints?
 Can this improve performance and reduce the cost?
+
+##### Main Topics:
+- performance: the stateful placement increments performace when placing functions
+- requirements: security constraints of the deployed application
 
 ### W. Qiao et al., "A Novel Method for Resource Efficient Security Service Chain Embedding Oriented to Cloud Datacenter Networks," in IEEE Access, vol. 9, pp. 77307-77324, 2021, doi: 10.1109/ACCESS.2021.3082644.
 This paper wants to propose a new method to find the optimal placement of a Security Service Chain in data center networks. The proposed algorithm is called Particle Swarm Optimization (PSO) and uses a new approach to instantiate chains of functions.
@@ -49,6 +64,11 @@ The results show that the PSO algorithm finds a new solution that can optimize t
 ##### Main Questions:
 How can we optimize SSC deployment and delay between functions using the precise requirements of every application and VSNF inside data centers?
 
+##### Main Topics:
+- performance: the algorithm wants to optimize the performance of the deployed NFs in terms of delay and bandwidth
+- requirements: security requirements of the deployed application
+- optimization: of the deployment algorithm
+
 ### A. Bagheri and A. Shameli-Sendi, "Automating the Translation of Cloud Users’ High-Level Security Needs to an Optimal Placement Model in the Cloud Infrastructure," in IEEE Transactions on Services Computing, vol. 16, no. 6, pp. 4580-4590, Nov.-Dec. 2023, doi: 10.1109/TSC.2023.3327632.
 In this paper for the first time the problem of placing VNFs based on users' needs and cloud providers' placement objectives has been analyzed. The TUSNPM (Translating User’s Security Needs into the Placement Model) algorithm has been developed for fat-tree topology in data centers to understand which is the maximum number of nodes to have a function placement in almost real time.
 
@@ -57,13 +77,21 @@ Results are based on five objectives (Max-N, Max-C, Max-CN, Max-C-Fixed-N, Max-N
 ##### Main Questions:
 Can users' needs be satisfied when placing VNFs in fat-tree data centers?
 
+##### Main Topics:
+- performace: intended as performance of the placement
+- requirements: needs of the users and of the CSP
+
 ### H. Wu, Y. Zhang, H. Yang, G. Yu and J. Cao, "Virtualized Security Function Placement for Security Service Chaining in Cloud," 2018 IEEE 24th International Conference on Parallel and Distributed Systems (ICPADS), Singapore, 2018, pp. 628-637, doi: 10.1109/PADSW.2018.8644566.
 This paper takes a new framework named MCE to compute VNF placement. First of all it does a check on the reachability of the nodes, then it simplifies the confilicting policies with the BSIS-RC algorithm based on bit sequence intersection computation.
 
 In the end six solutions are compared with three different algorithms with and without MCE in a fat-tree topology with 8 pods. MCE takes a great performance improvement in the success rate of the mapping algorithm when used. MCE takes also TBC reduction, but the mapping algorithm choosen is the main responsible for this value. Finally the best value of tau is 5 because over it the improvement becomes insignificant.
 
 ##### Main Questions:
-Can the performance of VNF be improved simplifying the requirement evaluation of each NF?
+Can the performance of the placement of VNF be improved simplifying the requirement evaluation of each NF?
+
+##### Main Topics:
+- performance: intended as performance of the placement (but also for the TBC reduction)
+- requirements: based on security policies
 
 ---
 ## Other Possibly Related Papers
@@ -84,10 +112,16 @@ Can the performance of VNF be improved simplifying the requirement evaluation of
 4. R. Doriguzzi-Corin, S. Scott-Hayward, D. Siracusa and E. Salvadori, "Application-Centric provisioning of virtual security network functions," 2017 IEEE Conference on Network Function Virtualization and Software Defined Networks (NFV-SDN), Berlin, Germany, 2017, pp. 276-279, doi: 10.1109/NFV-SDN.2017.8169861.
 
 ---
-## Domande
+## Papers Chronological Resume
 
-#### Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns
+One of the first papers developed in the argument of microservice orchestration is "Virtualized Security Function Placement for Security Service Chaining in Cloud" in 2018 where the authors tried to optimize the placement of NFs simplifying the policies and in general the requirements evaluation of each VNF.
 
-1. Con SDPAP andiamo a piazzare i moduli di sicurezza nella stessa partizione di sorgente e destinazione con un algoritmo più efficiente di quelli usati attualmente per un problema NP-Hard. Non mi è ancora chiaro quale sia il ruolo dei requisiti di un determinato servizio nell'algoritmo di piazzamento.
+Then we can find another study that is "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns" in 2019 which wants to optimize the placement of NFs base on the path that data must do to go from source to destination. The difference with the previous one is that here we talk about chains of NFs but the requirements are of the single function.
 
-2. Il piazzamento ottimale di un servizio viene standardizzato per tutti e quindi può non essere ottimale per alcuni oppure se ci si rende conto che non è sufficiente per un servizio questo viene ri-piazzato?
+Following this paper one of the authors A. Shameli-Sendi produced other two studies that I think they could be considered an extension of what he has already produced. First of all "A Scalable Stateful Approach for Virtual Security Functions Orchestration" from 2021 that talks about trying to assemble a new deployed microservice with other existing ones. From this paper a possible "gap" in the state of art can be found because the authors don't consider moving already existing NFs when assembling more services. The second study is "Automating the Translation of Cloud Users’ High-Level Security Needs to an Optimal Placement Model in the Cloud Infrastructure" from 2023 and the authors' main question is about how to combine the requirements of the user (intended as developer of the application) and the CSP. Reading all these arcticles from A. Shameli-Sendi the impression is that he wants to start from the general problem to go then in more specific fields like the stateful placement and the consideration of users' needs.
+
+In 2020 the paper "Dynamic and Application-Aware Provisioning of Chained Virtual Security Network Functions" has been developed and I think that this one could be considered as a follow-up of the one from 2019. What the authors wanted to achieve was to expand the placement algorithm from the other study to every type of network topology and considering also the overhead on the links.
+
+Then in 2021 the study "A Novel Method for Resource Efficient Security Service Chain Embedding Oriented to Cloud Datacenter Networks" has been written; in my opinion this one could be a possible expansion of the one from 2017. The main focus of the authors here is on optimizing delays between functions inside data centers while trying to respect every security requirement of the applications. With respect to the previous one here we talk about performance of the application and not about the deployment optimization.
+
+I think that the underlying theme of all the papers found during this research is trying to find an optimal balance between performance of the placement algorithm, the respect of the security requirement of the application, the needs of the CSP and the performance of the deployed VSNFs.
