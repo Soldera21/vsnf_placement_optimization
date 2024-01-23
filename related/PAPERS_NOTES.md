@@ -169,5 +169,4 @@ All these objectives are achieved always taking into account with a good priorit
 ---
 - scrivere related work su latex
 
-
 - file minute???
