@@ -14,11 +14,11 @@ How can the best architecture for storing and computing business data be choosen
 - requirements: intended as requirements of the deployed application
 
 ### A. Shameli-Sendi, Y. Jarraya, M. Pourzandi and M. Cheriet, "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns," in IEEE Transactions on Services Computing, vol. 12, no. 4, pp. 534-549, 1 July-Aug. 2019, doi: 10.1109/TSC.2016.2616867.
-In the context of microservice placement the security aspect is an important factor used to evalute the location, but many times it is under-estimated. The security requirements are based on a set of standard patterns. These patterns are chained together to compose the entire netwrok with all the security constraints. Every time a constraint is established it has to be satisfied with one or more patterns.
+In the context of microservice placement the security aspect is an important factor used to evaluate the location, but many times it is under-estimated. Security requirements of VSNFs are based on a set of standard patterns. These patterns are chained together to compose the entire application with all the security constraints. Every time a constraint is established it has to be satisfied with one or more patterns.
 
-The approach to find a new placement algortihm used in this paper is Security Defense Pattern Aware Placement (SDPAP). We base the computation on two initial steps before finding the optimal placement: partitioning and segmentation. In partitioning we compute independent blocks with different paths to go from the same source to the same destination. The final solution resides in one block and is not affected by this process. In segmentation we divide each block in generally three segments (source, destination and core) to exclude an incorrect placement hypothesis based on constraints. This is made to avoid unuseful attemps to place security functions.
+The approach to find a new placement algorithm used in this paper is Security Defense Pattern Aware Placement (SDPAP). We base the computation on two initial steps before finding the optimal placement: partitioning and segmentation. In partitioning we compute independent blocks with different paths to go from the same source to the same destination. The final solution resides in one block and is not affected by this process. In segmentation we divide each block in generally three segments (source, destination and core) to exclude an incorrect placement hypothesis based on constraints. This is made to avoid unuseful attemps to place security functions.
 
-The final algorithm has been implemented in OpenStack and the performance is improved significantly making it almost real-time for a maximum network size of 69,696 nodes. After this limit, the computation becomes difficult also for SDPAP.
+The final algorithm has been implemented in OpenStack and the performance is improved significantly making it almost real-time for a maximum network size of 69,696 nodes. After this limit, the computation becomes hard also for SDPAP.
 
 ##### Main Questions:
 Can the security requirements aspect be considered when placing microservices?
@@ -31,9 +31,9 @@ Can this also improve performances during service placement or at least maintain
 - based on needs of the single VNF
 
 ### R. Doriguzzi-Corin, S. Scott-Hayward, D. Siracusa, M. Savi and E. Salvadori, "Dynamic and Application-Aware Provisioning of Chained Virtual Security Network Functions," in IEEE Transactions on Network and Service Management, vol. 17, no. 1, pp. 294-307, March 2020, doi: 10.1109/TNSM.2019.2941128.
-In this paper a new algorithm is proposed to deploy chains of network functions based on security policies, computing capabilities of the network and the security services themselves. The main differences with "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns" and this work are that before the algorithm is limited to fat-tree topology, needs to compute the complete flow and does not take into account the latency of the links.
+In this paper a new algorithm is proposed to deploy chains of VSNFs based on security policies, computing capabilities of the network and the VSNFs requirements themselves. The main differences with "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns" and this work are that before the algorithm was limited to fat-tree topology, needed to compute the complete flow and did not take into account the latency of the links.
 
-The Progressive Embedding of Security Services (PESS) algorithm computes the shortest path between source and destination to find all the possible nodes where a VSNF chain can be placed. The more enhanced version also considers high-capacity nodes and the path in both directions computing subpaths that are assembled. The choosen solution is based mainly on the metrics. Then latency and bandwidth are subtracted from the links used by the solution. The results are compared with PESS and standard Kubernetes on a random network, the Stanford University network and the GARR network and a significant boost of performance is evident.
+The Progressive Embedding of Security Services (PESS) algorithm computes the shortest path between source and destination to find all the possible nodes where a VSNF can be placed. The more enhanced version also considers high-capacity nodes and the path in both directions computing subpaths that are assembled. The chosen solution is based mainly on the metrics. Then latency and bandwidth are subtracted from the links used by the solution. The results are compared with PESS and standard Kubernetes on a random network, the Stanford University network and the GARR network. A significant boost of performance for the application is evident.
 
 ##### Main Questions:
 Can the approach of computing the best placement based on security requirements be expanded to every type of network topology?
@@ -61,9 +61,9 @@ Can this improve performance and reduce the cost?
 - based on needs of the single VNF and on already present VNFs
 
 ### W. Qiao et al., "A Novel Method for Resource Efficient Security Service Chain Embedding Oriented to Cloud Datacenter Networks," in IEEE Access, vol. 9, pp. 77307-77324, 2021, doi: 10.1109/ACCESS.2021.3082644.
-This paper wants to propose a new method to find the optimal placement of a Security Service Chain in data center networks. The proposed algorithm is called Particle Swarm Optimization (PSO) and uses a new approach to instantiate chains of functions.
+This paper wants to propose a new method to find the optimal placement of a Security Service Chain in data center networks. The proposed algorithm is called Particle Swarm Optimization (PSO) and uses a new approach to instantiate chains of VSNFs.
 
-The approach is to first compute the best paths to go from source to destination with a k-Dijkstra algorithm, then find the set of VSNFs needed based on the security level of the application we are deploying and finally the best position for the VSNFs is found iteratively. The main focus of the paper is on having developed an algithm that focuses on security requirements and can deploy the chain without wasting resources that in other cases are used because the maximum level of security is adpoted also if not needed.
+The approach is to first compute the best paths to go from source to destination with a k-Dijkstra algorithm, then find the set of VSNFs needed based on the security level of the application we are deploying and finally the best position for the VSNFs is found iteratively. The main focus of this paper is on having developed an algorithm that focuses on security requirements and can deploy the chain without wasting resources that in other cases are used because the maximum level of security is adpoted also if not needed.
 
 The results show that the PSO algorithm finds a new solution that can optimize the deployment of SSCs with less resource comsuption, a better latency between nodes due to deploying not only in most powerful nodes but also taking into account the links and it has a lower complexity than the other algorithms analyzed.
 
@@ -79,7 +79,7 @@ How can we optimize SSC deployment and delay between functions using the precise
 - NFs deployment based on policies
 
 ### A. Bagheri and A. Shameli-Sendi, "Automating the Translation of Cloud Users’ High-Level Security Needs to an Optimal Placement Model in the Cloud Infrastructure," in IEEE Transactions on Services Computing, vol. 16, no. 6, pp. 4580-4590, Nov.-Dec. 2023, doi: 10.1109/TSC.2023.3327632.
-In this paper for the first time the problem of placing VNFs based on users' needs and cloud providers' placement objectives has been analyzed. The TUSNPM (Translating User’s Security Needs into the Placement Model) algorithm has been developed for fat-tree topology in data centers to understand which is the maximum number of nodes to have a function placement in almost real time.
+In this paper for the first time the problem of placing VSNFs based on users' needs and cloud providers' placement objectives has been analyzed. The TUSNPM (Translating User’s Security Needs into the Placement Model) algorithm has been developed for fat-tree topology in datacenters to understand which is the maximum number of nodes to have a function placement in almost real time.
 
 Results are based on five objectives (Max-N, Max-C, Max-CN, Max-C-Fixed-N, Max-N-Fixed-C) from the cloud provide side and QoS and cost from the user side. To test the performance of the algorithm three scenarios have been tested and when k goes over 32 the runtime becomes higher esponentially causing the computation hard to do in almost real time. Requirements are foundamentals to determine the final cost of the placement.
 
@@ -93,9 +93,9 @@ Can users' needs be satisfied when placing VNFs in fat-tree data centers?
 - users have security needs and CSP has performance needs
 
 ### H. Wu, Y. Zhang, H. Yang, G. Yu and J. Cao, "Virtualized Security Function Placement for Security Service Chaining in Cloud," 2018 IEEE 24th International Conference on Parallel and Distributed Systems (ICPADS), Singapore, 2018, pp. 628-637, doi: 10.1109/PADSW.2018.8644566.
-This paper takes a new framework named MCE to compute VNF placement. First of all it does a check on the reachability of the nodes, then it simplifies the confilicting policies with the BSIS-RC algorithm based on bit sequence intersection computation.
+This paper takes a new framework named MCE to compute VSNF placement. First of all it does a check on the reachability of the nodes, then it simplifies the conflicting policies with the BSIS-RC algorithm based on bit sequence intersection computation.
 
-In the end six solutions are compared with three different algorithms with and without MCE in a fat-tree topology with 8 pods. MCE takes a great performance improvement in the success rate of the mapping algorithm when used. MCE takes also TBC reduction, but the mapping algorithm choosen is the main responsible for this value. Finally the best value of tau is 5 because over it the improvement becomes insignificant.
+In the end six solutions are compared with three different algorithms with and without MCE in a fat-tree topology with 8 pods. MCE takes a great performance improvement in the success rate of the mapping algorithm when used. MCE takes also Total Bandwidth Consumption reduction, but the mapping algorithm chosen is the main responsible for this value. Finally the best value of tau is 5 because over it the improvement becomes insignificant.
 
 ##### Main Questions:
 Can the performance of the placement of VNF be improved simplifying the requirement evaluation of each NF?
