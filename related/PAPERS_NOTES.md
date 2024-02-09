@@ -167,6 +167,45 @@ All these objectives are achieved always taking into account with a good priorit
 - In the last studies the main focus is on the performance of the application or of the deployment
 
 ---
-- scrivere related work su latex
+## Main Proposed Argument
+Esistono diverse security virtual network functions:
+- Firewall
+- Intrusion Detection System (IDS)
+- Intrusion Prevention System (IPS)
+- Cryptography (e.g., reverse proxy)
+- Advanced threat detection and mitigation (e.g., monitoring system calls in container)
+- ...
 
-- file minute???
+Queste security virtual network functions:
+- rispondono a un certo requisito di sicurezza (e.g., bisogno di crittografia, analisi traffico)
+- lavorano ad un certo livello (e.g., di rete, applicativo)
+- hanno una serie di step logici (e.g., intercetto traffico, analizzo dati sul posto, de/cifro, inoltro)
+- hanno un interplay fra di loro (e.g., non posso mettere IDS dopo reverse proxy che cifra)
+
+Domande, queste security virtual network functions:
+- si possono clusterizzare in classi (e.g., IDS/IPS fanno deep packet inspection)
+- si possono legare a un analisi del rischio sul piazzamento?
+- quante altre ce ne sono (fare ricerca)?
+- come sono legate ai pattern identificati in Fig. 2 in "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns"?
+- importante definire il problema, noi vogliamo dare una prospettiva di sicurezza al placement in cui la funzione obiettivo è guidata dalla sicurezza, oltre che dalla performance (e.g., latenza, banda, risorse computazionali)
+
+Formulare bene il problema (i.e., la research question); oltre che alla letteratura puoi forse anche dare un occhio a vendor e blog specializzati, se contengono materiale utile a orientarsi.
+
+---
+## Material Found
+
+#### Han, Jin & Zang, Wangyu & Liu, Li & Chen, Songqing & Yu, Meng. (2018). Risk-aware multi-objective optimized virtual machine placement in cloud. Journal of Computer Security. 26. 1-24. 10.3233/JCS-171104.
+The main focus of this paper is on the placement of VMs based on security risks and performance of the physical machines. For our purpose the themes of this articles are not important, but I think that an interesting part is the one about risk evaluation. First of all in section 3.2 the security assessment lists all the possible risks related to VMs. In our case they can be a good start to formulate different risks about containers. Then in section 3.3 these risks are formalized. The last interesting part is at section 4.2.1 where they propose some different placement strategies based on the situation.
+
+#### Demirci, Sedef & Demirci, Mehmet & Sagiroglu, Seref. (2019). Virtual Security Functions and Their Placement in Software Defined Networks: A Survey. Gazi University Journal of Science. 32. 833-851. 10.35378/gujs.422000.
+This article tries to introduce the concepts of SDN and NFV classifing the available VSNFs and reviewing other existing works. After a focus on SDN, NFV and their components the article focuses on (I think) the more interesting part about the classification of VSNFs in detection, prevention and deception functions. Then it explains the different approaches of deploying with the evaluation of the Capital Expenses or Operating Expenses in other works through a very useful table. In the end the authors explain possible challenges and future directions.
+
+---
+## Problem Formulation
+How can the security risk be classified based on the services that we are deployed because they are required from the business application? ...
+
+The problem that we want to propose is a generalization of another one that emerged during the development of the Demo Paper "Multi-Objective Microservice Orchestration: Balancing Security and Performance in CCAM". In this context the authors are talking about a specific VSNF called CryptoAC with the placement of the FogAtlas framework. What we want to achieve with this project is to evaluate and classify the risk of a specific placement configuration based on the security functions that we are deploying, the application context where we are and the type of traffic that is passing through the network. We will find some characteristics that can help up to classify the functions and a common criterion to evaluate the risk. The various types of risk can be formalized in mathematical language to be able to combine them.
+
+- espandere problem con funzioni utilizzabili e eventuale classificazione del rischio prendendo spunto da articoli già presenti
+- mettere il problema nella possibile introduzione
+- trovare altre research questions
