@@ -202,10 +202,39 @@ This article tries to introduce the concepts of SDN and NFV classifing the avail
 
 ---
 ## Problem Formulation
-How can the security risk be classified based on the services that we are deployed because they are required from the business application? ...
+The problem that we want to propose is a generalization of another one that emerged during the development of the Demo Paper "Multi-Objective Microservice Orchestration: Balancing Security and Performance in CCAM". In this context the authors are talking about a specific VSNF called CryptoAC with the placement of the FogAtlas framework. What we want to achieve with this project is to evaluate and classify the risk of a specific placement configuration based on the security functions that we are deploying, the application context where we are and the type of traffic that is passing through the network.
 
-The problem that we want to propose is a generalization of another one that emerged during the development of the Demo Paper "Multi-Objective Microservice Orchestration: Balancing Security and Performance in CCAM". In this context the authors are talking about a specific VSNF called CryptoAC with the placement of the FogAtlas framework. What we want to achieve with this project is to evaluate and classify the risk of a specific placement configuration based on the security functions that we are deploying, the application context where we are and the type of traffic that is passing through the network. We will find some characteristics that can help up to classify the functions and a common criterion to evaluate the risk. The various types of risk can be formalized in mathematical language to be able to combine them.
+We will find some characteristics that can help up to classify the functions. A possible example can be the one presented by the paper "Virtual Security Functions and Their Placement in Software Defined Networks: A Survey" that establishes three classes of VSNFs: attack detection, prevention and deception functions.
 
+In the class of attack detection functions can be found:
+- Intrusion Detection System
+- Malware Scanner
+- Distributed denial of service (DDoS) detector
+- Deep packet inspection (DPI)
+
+For attack prevention functions there are:
+- Firewall
+- Intrusion prevention system (IPS)
+- Anti-spoofing
+
+And for the last category of attack deception function there are:
+- Honeypot
+- Moving target defense
+- Attack Mitigation Functions
+
+Then a common criterion to evaluate the risk needs to be defined. The various types of risk should be formalized in mathematical language to be able to combine and compare them objectively. A possible strategy for this task can be the one proposed in "Risk-aware multi-objective optimized virtual machine placement in cloud" where four types of risk are defined: risk of the single VM, risk of the hypervisor and the VM, co-residence risk and network risk. This is for VMs, but similar types of risks can be found in containers. The risk can be calculated for example based on CVSS score re-scaled from (0, 10) to (0, 1). When the total risk of a situation is the composition of multiple risks a specific formula needs to be defined to calculate it based on the situation that is considered. The final risk is the sum of all the possible types of risk.
+
+In the end we want to achieve a distinguishable score for every placement configuration to evaluate which one is better. This score is needed to have a multiple objective rating for the business application we are considering.
+
+
+### Research Questions
+How can VSNFs be classified?
+How can the security risk be classified?
+Can this risk classification be quantified in numbers to compare it objectively?
+Can this classification be based on the specific deployment and placement of the services that are being used in the business application?
+How can a certain classification affect the application at runtime from the security point of view?
+
+---
 - espandere problem con funzioni utilizzabili e eventuale classificazione del rischio prendendo spunto da articoli già presenti
 - mettere il problema nella possibile introduzione
 - trovare altre research questions
