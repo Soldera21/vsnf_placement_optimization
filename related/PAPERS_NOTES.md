@@ -235,6 +235,3 @@ Can this classification be based on the specific deployment and placement of the
 How can a certain classification affect the application at runtime from the security point of view?
 
 ---
-- espandere problem con funzioni utilizzabili e eventuale classificazione del rischio prendendo spunto da articoli già presenti
-- mettere il problema nella possibile introduzione
-- trovare altre research questions
