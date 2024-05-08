@@ -178,5 +178,42 @@ Semplificazioni:
 - performance ridotta a numero di VSNF -> idea di valutare performance sommando uso di cpu, mem e moltiplicare per inverso di latenza e tempo di risposta ???? oppure reare una lista di priorità per ogni VSNF così da risolvere le ambiguità
 
 prossimi step:
-- costo con cpu si trova online
-- fare prova a mano con la metodologia del BPMN
+- costo con cpu si trova online ???
+
+#### Esempio:
+L'applicazione presa come esempio si occupa di prendere dei dati da delle API pubbliche con il servizio "Data Aggregator". Questo poi richiede l'elaborazione di alcuni di questi dati al "ML Service". Entrambi salvano nel database "MongoDB". "API Service" recupera i dati da "MongoDB" e li espone con delle API pubbliche e private oppure li invia al "Front-End". Da questi due ultimi servizi si va verso internet.
+
+Asset individuati:
+- ML Service:
+    - Computation: C I
+- Data Aggregator:
+    - Computation: C I
+- Gateway:
+    - Gateway: A
+    - API: C A
+    - AuthN/AuthZ: C A
+- Front-End:
+    - /
+- API Service:
+    - Communication: C I
+- MongoDB:
+    - Storage: C I A
+
+Questo è l'input raffinato per la procedura di risk assessment. Il prossimo passo è acquisire le tabelle di associazione tra VSNFs-attacchi e assets-attacchi. A questo punto l'algoritmo prevede l'acquisizione degli asset precedentemente individuati.
+
+Ora si itera su ogni posizione in cui questi sono stati individuati per ottimizzare le funzioni che proteggono tutti gli assets trovati lì.
+
+- ML Service: dalla tabella assets-attacchi trovo che qui posso essere soggetto a [ DDoS, Malwares, Injections, XSS, Zero-Day, Cryptojacking, Eavesdropping ]; quindi devo utilizzare la seguente miglior configurazione di VSNFs dalla tabella VSNFs-attacchi per proteggere [ Intrusion Detection System, Deep Packet Inspection, Authentication Function ]  -> altre opzioni potrebbero essere ad esempio: [ IPS, DPI, Authentication Function ] (omesse nei prossimi servizi per semplicità)
+- Data Aggregator: dalla tabella assets-attacchi trovo che qui posso essere soggetto a [ DDoS, Malwares, Injections, XSS, Zero-Day, Cryptojacking, Eavesdropping ]; quindi devo utilizzare la seguente miglior configurazione di VSNFs dalla tabella VSNFs-attacchi per proteggere [ Intrusion Detection System, Deep Packet Inspection, Authentication Function ]
+- Gateway: dalla tabella assets-attacchi trovo che qui posso essere soggetto a [ DDoS, Malwares, Injections, Port Scanning, XSS, DNS Spoofing, Zero-Day, ARP Spoofing, MitM, Path Traversal, Phishing, Brute Force, Cryptanalysis, Replay Attack, Key Attacks, DNS Attack, Eavesdropping ]; quindi devo utilizzare la seguente miglior configurazione di VSNFs dalla tabella VSNFs-attacchi per proteggere [ Authentication Function, Key Management Function, Intrusion Detection System, Deep Packet Inspection, Anti-Spoofing, DNS Security ]
+- Front-End: /
+- API Service: dalla tabella assets-attacchi trovo che qui posso essere soggetto a [ DDoS, Malwares, XSS, DNS Spoofing, IP Spoofing, Zero-Day, ARP Spoofing, MitM, MAC Spoofing, Key Attacks, DNS Attack, Eavesdropping, Criptojacking ]; quindi devo utilizzare la seguente miglior configurazione di VSNFs dalla tabella VSNFs-attacchi per proteggere [ Authentication Function, Key Management Function, Intrusion Detection System, Deep Packet Inspection, Anti-Spoofing ]
+- MongoDB: dalla tabella assets-attacchi trovo che qui posso essere soggetto a [ DDoS, Malwares, Injections, Port Scanning, XSS, DNS Spoofing, Zero-Day, ARP Spoofing, Path Traversal, Phishing, Brute Force, Cryptanalysis, Key Attacks, DNS Attack ]; quindi devo utilizzare la seguente miglior configurazione di VSNFs dalla tabella VSNFs-attacchi per proteggere [ Intrusion Detection System, Deep Packet Inspection, Anti-Spoofing, Authentication Function, Key Management Functions, DNS Security ]
+
+Infine si inseriscono le VSNFs nel grafo dell'app.
+
+A questo punto abbiamo ottenuto il grafo completo di funzioni di sicurezza i cui servizi possono essere piazzati tramite un algoritmo di Virtual Network Embedding.
+
+
+Problema: anche cercando di mettere delle capabilities prima possibile si ha duplicazione di funzioni.
+Possibile soluzione: indicare i tragitti dei dati per ridurre le funzioni e aggregarle.
