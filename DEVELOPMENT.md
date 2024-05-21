@@ -217,3 +217,112 @@ A questo punto abbiamo ottenuto il grafo completo di funzioni di sicurezza i cui
 
 Problema: anche cercando di mettere delle capabilities prima possibile si ha duplicazione di funzioni.
 Possibile soluzione: indicare i tragitti dei dati per ridurre le funzioni e aggregarle.
+
+
+#### Idea Semplificazione:
+Verificare per ogni funzione nel grafo finale se è vicina a un'altra funzione identica ed eliminarne una delle due. Bisogna stabilire dei tipi di funzione (che viene attraversata e che viene consultata). Quelle consultate possono essere unificate e consulatate in un punto unico della rete.
+
+#### Algoritmo:
+
+vsnfConsultate = [ Authentication Function, Key Management Functions, Policy Management Functions ]
+
+function reduceVSNFs(Grafo reteCompleta):
+    // semplificazione funzioni attraversate dal traffico...
+    foreach(vert in reteCompleta):
+        foreach(neighbour in vert):
+            if(neighbour.type == vert.type):
+                moveLinks(neighbour, vert)      // sposta tutti i link dal vicino dello stesso tipo al nodo su cui ci troviamo
+                removeVert(neighbour)
+            end
+        end
+    end
+
+    // semplificazione funzioni da consultare...
+    contPerTipo = [ null ]*len(vsnfConsultate)
+    foreach(vert in estraiFunzioni(reteCompleta, vsnfConsultate)):      // estraiFunzioni() estrae dal grafo le funzioni del tipo indicato
+        if(contPerTipo[ vert.type ] == null):
+            contPerTipo[ vert.type ] = vert
+        else:
+            moveLinks(vert, contPerTipo[ vert.type ])
+            removeVert(vert)
+        end
+    end
+
+    // semplificazione lati ridondanti del grafo...
+    foreach(lato in reteCompleta):
+        if(lato.side1 == lato.side2):
+            removeLato(lato)
+        else:
+            foreach(lato2 in reteCompleta):
+                if(lato.side1 == lato2.side1 && lato.side2 == lato2.side2):
+                    removeLato(lato2)
+                end
+            end
+        end
+    end
+end
+
+*dubbio: così le funzioni di sicurezza fungono anche da router in alcuni casi con regole di inoltro*
+
+
+**Algoritmo con catene:**
+
+*Posizione: può essere individuata da un nodo, un lato, un nodo e un lato*
+
+vsnfConsultate = [ Authentication Function, Key Management Functions, Policy Management Functions ]
+
+function reduceVSNFs(Grafo reteCompleta):
+    // stabilisco che le catene sono nell'ordine di priorità precedentemente deciso (lista ordinata)
+    // semplifico le catene vicine unendole...
+    foreach(catena in reteCompleta):
+        foreach(catenaVicina in catena):
+            if(catenaVicina in catena):
+                spostaLinks(catenaVicina, catena)   // sposta il punto di entrata e uscita dalla catena contenuta in quella che contiene
+                                                    // in corrispondenza delle funzioni richieste
+            elseif(catena in catenaVicina):
+                spostaLinks(catena, catenVicina)
+            else:
+                mergeCatene(catena, catenaVicina)   // unisce le catene nella prima, le ordina e trasferisce i link sulla prima
+            end
+        end
+    end
+
+    // semplificazione funzioni da consultare...
+    contPerTipo = [ null ]*len(vsnfConsultate)
+    foreach(vert in estraiFunzioni(reteCompleta, vsnfConsultate)):      // estraiFunzioni() estrae dal grafo le funzioni del tipo indicato
+        if(contPerTipo[ vert.type ] == null):
+            contPerTipo[ vert.type ] = vert
+        else:
+            moveLinks(vert, contPerTipo[ vert.type ])
+            removeVert(vert)
+        end
+    end
+
+    // semplificazione lati ridondanti del grafo...
+    foreach(lato in reteCompleta):
+        if(lato.side1 == lato.side2):
+            removeLato(lato)
+        else:
+            foreach(lato2 in reteCompleta):
+                if(lato.side1 == lato2.side1 && lato.side2 == lato2.side2):
+                    removeLato(lato2)
+                end
+            end
+        end
+    end
+end
+
+
+**Pattern nell'esempio:**
+
+- Composition: Authentication Function, Key Management Function
+- Loop: Authentication Function, Key Management Function
+- Pass-Through: IDS, DPI, DNS Security, Anti-Spoofing
+- Branch-and-Merge: IDS, DPI, DNS Security, Anti-Spoofing -> su Semplificato 1
+- Ordered: IDS, DPI, DNS Security, Anti-Spoofing -> su Semplificato 1 con catene
+
+
+#### Con Analisi Flussi:
+L'approccio sembra più complicato di quello appena proposto semplificando i vicini. Analizzando e semplificando i flussi si rischia di togliere funzioni ridondanti per un flusso ma necessarie per un altro. Inoltre questo comporta percorsi obbligati per i dati, difficilmente dinamici.
+Altro approccio potrebbe essere di partire dalle intersezioni tra i flussi per preservare le funzioni in comune. Qui però si rischia di avere un filtraggio del flusso troppo tardi rispetto al punto di entrata nella rete con danneggiamento degli asset che è richiesto di proteggere.
+
