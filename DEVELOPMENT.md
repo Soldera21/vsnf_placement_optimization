@@ -4,8 +4,6 @@ Data business app trovare VSNF basandosi su minacce o vulnerabilità
 Come raccogliere le info su minacce o vulnerabilità a cui è soggetta una app di business o un servizio
 Dataset Alibaba su workload delle parti di una app
 
-Percorso che permetta di arrivare alla fine semplice e poi aggiungere dettagli
-
 Percorso di studio:
 * Sviluppo della parte relativa al risk assessment data una business application e le minacce a cui può essere soggetta
 * Elaborazione del grafo della business app con le VSNF
@@ -41,56 +39,56 @@ Elaborare algoritmo a mano con gli step per partire da minacce/attacchi forniti 
 #### Idea:
 Creare una lista di priorità per ogni VSNF così da risolvere le ambiguità (es in base al loro impatto sulle prestazioni nel caso specifico del rilevare quell'attacco). Poi si analizzano gli attacchi e dei loro sottogruppi per capire quali funzioni di sicurezza ottimizzano al meglio le richieste. Inoltre bisogna dare una priorità alle funzioni per far si che l'ordine sia efficace.
 
-function riskAssessment(List vsnfs, List attacchi, Matrix vsnfAttack, Grafo businessApp, List attacchiPerServizio):
-    Grafo app <- businessApp
+    function riskAssessment(List vsnfs, List attacchi, Matrix vsnfAttack, Grafo businessApp, List attacchiPerServizio):
+        Grafo app <- businessApp
 
-    foreach(funct in businessApp):
-        requisiti <- attacchiperServizio[funct]
-        secFuncts <- ottimizzaFunzioni(vsnfs, attacchi, vsnfAttack, requisiti)
-        app <- inserisciInGrafo(app, funct, secFuncts)
-    end
-
-    ritorna app
-end
-
-function ottimizzaFunzioni(List vsnfs, List attacchi, Matrix vsnfAttack, List requisiti):
-    req <- mapToMatrixIndex(requisiti)
-
-    // trovare tutti i possibili sottogruppi di qualsiasi dimensione degli attacchi partendo da gruppi più grandi e che creino n attacchi univoci
-
-    List migliorComb
-    foreach(c in combinazioneDiGruppi):
-        funzioni <- estraiFunzioni(c, vsnfAttack)
-        se funzioni not empty and len(funzioni) < len(migliorComb):
-            migliorComb <- funzioni
+        foreach(funct in businessApp):
+            requisiti <- attacchiperServizio[funct]
+            secFuncts <- ottimizzaFunzioni(vsnfs, attacchi, vsnfAttack, requisiti)
+            app <- inserisciInGrafo(app, funct, secFuncts)
         end
+
+        ritorna app
     end
 
-    ritorna migliorComb
-end
+    function ottimizzaFunzioni(List vsnfs, List attacchi, Matrix vsnfAttack, List requisiti):
+        req <- mapToMatrixIndex(requisiti)
 
-function estraiFunzioni(List combGruppi, Matrix vsnfAttack):
-    List functs
+        // trovare tutti i possibili sottogruppi di qualsiasi dimensione degli attacchi partendo da gruppi più grandi e che creino n attacchi univoci
 
-    Int i = 0
-    foreach(gruppo in combGruppi):
-        foreach(vsnf in vsnfAttacchi):
-            se vsnf contiene gruppo:
-                functs.append(vsnf)
+        List migliorComb
+        foreach(c in combinazioneDiGruppi):
+            funzioni <- estraiFunzioni(c, vsnfAttack)
+            se funzioni not empty and len(funzioni) < len(migliorComb):
+                migliorComb <- funzioni
             end
         end
-        se functs[i] = undefined:
-            functs.append(-1)
-        end
-        i++
+
+        ritorna migliorComb
     end
 
-    se -1 in functs:
-        ritorna []
-    altrimenti:
-        ritorna functs
+    function estraiFunzioni(List combGruppi, Matrix vsnfAttack):
+        List functs
+
+        Int i = 0
+        foreach(gruppo in combGruppi):
+            foreach(vsnf in vsnfAttacchi):
+                se vsnf contiene gruppo:
+                    functs.append(vsnf)
+                end
+            end
+            se functs[i] = undefined:
+                functs.append(-1)
+            end
+            i++
+        end
+
+        se -1 in functs:
+            ritorna []
+        altrimenti:
+            ritorna functs
+        end
     end
-end
 
 Semplificazioni:
 - singola applicazione e/o duplicazione di servizi di sicurezza
@@ -107,78 +105,133 @@ Considerazione nuovo approccio:
 Dare un ordine alle funzioni per far si che quando ne piazzo più di una nella stessa posizione queste non interferiscano tra di loro.
 
 
-type Asset: [ tipo, proprietà[ 3 ] ]
-type Posizione: [ posizione, List\<Asset\> assetsRichiesti ]
+    type Asset: [ tipo, proprietà[ 3 ] ]
+    type Posizione: [ posizione, List\<Asset\> assetsRichiesti ]
 
-function riskAssessment(Matrix vsnfAttack, Matrix assetsAttacks, Grafo businessApp, List\<Posizione\> posizioniDaProteggere):
-    Grafo app <- businessApp
+    function riskAssessment(Matrix vsnfAttack, Matrix assetsAttacks, Grafo businessApp, List\<Posizione\> posizioniDaProteggere):
+        Grafo app <- businessApp
 
-    for position in posizioniDaProteggere:
-        possibleAttacks <- trovaAttacchi(position[ assetsRichiesti ], assetsAttacks)
-        secFuncts <- ottimizzaFunzioni(vsnfAttack, possibleAttacks)
-        app <- inserisciInGrafo(app, secFuncts, position[ posizione ])
+        for position in posizioniDaProteggere:
+            possibleAttacks <- trovaAttacchi(position[ assetsRichiesti ], assetsAttacks)
+            secFuncts <- ottimizzaFunzioni(vsnfAttack, possibleAttacks)
+            app <- inserisciInGrafo(app, secFuncts, position[ posizione ])
+        end
+
+        ritorna app
     end
 
-    ritorna app
-end
+    function trovaAttacchi(List\<Assets\> assets, Matrix assetsAttacks)
+        List attacks
 
-function trovaAttacchi(List\<Assets\> assets, Matrix assetsAttacks)
-    List attacks
-
-    for asset in assets:
-        for row in assetsAttacks[ asset[ tipo ] ]:
-            if asset[ proprietà ] in row and row[ attack ] not in attacks:
-                attacks.add(row[ attack ])
+        for asset in assets:
+            for row in assetsAttacks[ asset[ tipo ] ]:
+                if asset[ proprietà ] in row and row[ attack ] not in attacks:
+                    attacks.add(row[ attack ])
+                end
             end
         end
+
+        ritorna attacks
     end
 
-    ritorna attacks
-end
+    function ottimizzaFunzioni(Matrix vsnfAttack, List attacks)
 
-function ottimizzaFunzioni(Matrix vsnfAttack, List attacks)
+        // trovare tutti i possibili sottogruppi di qualsiasi dimensione degli attacchi partendo da gruppi più grandi e che creino n attacchi univoci
 
-    // trovare tutti i possibili sottogruppi di qualsiasi dimensione degli attacchi partendo da gruppi più grandi e che creino n attacchi univoci
-
-    List migliorComb
-    foreach c in combinazioneDiGruppi:
-        funzioni <- estraiFunzioni(c, vsnfAttack)
-        se funzioni not empty and len(funzioni) < len(migliorComb):
-            migliorComb <- funzioni
-        end
-    end
-
-    ritorna migliorComb
-end
-
-function estraiFunzioni(List combGruppi, Matrix vsnfAttack):
-    List functs
-
-    Int i = 0
-    foreach(gruppo in combGruppi):
-        foreach(vsnf in vsnfAttacchi):
-            se vsnf contiene gruppo:
-                functs.append(vsnf)
+        List migliorComb
+        foreach c in combinazioneDiGruppi:
+            funzioni <- estraiFunzioni(c, vsnfAttack)
+            se funzioni not empty and len(funzioni) < len(migliorComb):
+                migliorComb <- funzioni
             end
         end
-        se functs[i] = undefined:
-            functs.append(-1)
-        end
-        i++
+
+        ritorna migliorComb
     end
 
-    se -1 in functs:
-        ritorna []
-    altrimenti:
-        ritorna functs
+    function estraiFunzioni(List combGruppi, Matrix vsnfAttack):
+        List functs
+
+        Int i = 0
+        foreach(gruppo in combGruppi):
+            foreach(vsnf in vsnfAttacchi):
+                se vsnf contiene gruppo:
+                    functs.append(vsnf)
+                end
+            end
+            se functs[i] = undefined:
+                functs.append(-1)
+            end
+            i++
+        end
+
+        se -1 in functs:
+            ritorna []
+        altrimenti:
+            ritorna functs
+        end
     end
-end
+
+
+**Algoritmo Trova Combinazioni:**
+
+    function find_subgroups(items):
+        function helper(subgroup, start):
+            se start == len(items):
+                all_subgroups.append(subgroup)
+                ritorna
+            end
+            
+            subgroup.append(items[start])
+            helper(subgroup, start + 1)
+            
+            subgroup.pop()
+            helper(subgroup, start + 1)
+        end
+        
+        all_subgroups = []
+        helper([], 0)
+        
+        result = []
+        foreach i in range(1, len(items) + 1):
+            foreach subgroup in all_subgroups:
+                se len(subgroup) == i:
+                    result.append(subgroup)
+                ends
+            end
+        end
+        
+        ritorna result
+    end
+
+    function recreate_items(subgroups, items):
+        function backtrack(start, current_combination, used_elements):
+            se used_elements == items:
+                valid_combinations.append(list(current_combination))
+                ritorna
+            end
+            se start >= len(subgroups):
+                ritorna
+            end
+            
+            foreach i in range(start, len(subgroups)):
+                subgroup = subgroups[i]
+                se not subgroup & used_elements:
+                    backtrack(i + 1, current_combination + [subgroups[i]], used_elements union subgroup)
+                end
+            end
+        end
+        
+        valid_combinations = []
+        backtrack(0, [], set())
+        ritorna valid_combinations
+    end
+
+Queste funzioni trovano prima tutti i possibili sottogruppi della lista data e poi tutte le combinazioni di sottogruppi per ricreare la lista iniziale.
+
 
 Semplificazioni:
 - performance ridotta a numero di VSNF -> idea di valutare performance sommando uso di cpu, mem e moltiplicare per inverso di latenza e tempo di risposta ???? oppure reare una lista di priorità per ogni VSNF così da risolvere le ambiguità
-
-prossimi step:
-- costo con cpu si trova online ???
 
 #### Esempio:
 L'applicazione presa come esempio si occupa di prendere dei dati da delle API pubbliche con il servizio "Data Aggregator". Questo poi richiede l'elaborazione di alcuni di questi dati al "ML Service". Entrambi salvano nel database "MongoDB". "API Service" recupera i dati da "MongoDB" e li espone con delle API pubbliche e private oppure li invia al "Front-End". Da questi due ultimi servizi si va verso internet.
@@ -224,43 +277,43 @@ Verificare per ogni funzione nel grafo finale se è vicina a un'altra funzione i
 
 #### Algoritmo:
 
-vsnfConsultate = [ Authentication Function, Key Management Functions, Policy Management Functions ]
+    vsnfConsultate = [ Authentication Function, Key Management Functions, Policy Management Functions ]
 
-function reduceVSNFs(Grafo reteCompleta):
-    // semplificazione funzioni attraversate dal traffico...
-    foreach(vert in reteCompleta):
-        foreach(neighbour in vert):
-            if(neighbour.type == vert.type):
-                moveLinks(neighbour, vert)      // sposta tutti i link dal vicino dello stesso tipo al nodo su cui ci troviamo
-                removeVert(neighbour)
+    function reduceVSNFs(Grafo reteCompleta):
+        // semplificazione funzioni attraversate dal traffico...
+        foreach(vert in reteCompleta):
+            foreach(neighbour in vert):
+                if(neighbour.type == vert.type):
+                    moveLinks(neighbour, vert)      // sposta tutti i link dal vicino dello stesso tipo al nodo su cui ci troviamo
+                    removeVert(neighbour)
+                end
             end
         end
-    end
 
-    // semplificazione funzioni da consultare...
-    contPerTipo = [ null ]*len(vsnfConsultate)
-    foreach(vert in estraiFunzioni(reteCompleta, vsnfConsultate)):      // estraiFunzioni() estrae dal grafo le funzioni del tipo indicato
-        if(contPerTipo[ vert.type ] == null):
-            contPerTipo[ vert.type ] = vert
-        else:
-            moveLinks(vert, contPerTipo[ vert.type ])
-            removeVert(vert)
+        // semplificazione funzioni da consultare...
+        contPerTipo = [ null ]*len(vsnfConsultate)
+        foreach(vert in estraiFunzioni(reteCompleta, vsnfConsultate)):      // estraiFunzioni() estrae dal grafo le funzioni del tipo indicato
+            if(contPerTipo[ vert.type ] == null):
+                contPerTipo[ vert.type ] = vert
+            else:
+                moveLinks(vert, contPerTipo[ vert.type ])
+                removeVert(vert)
+            end
         end
-    end
 
-    // semplificazione lati ridondanti del grafo...
-    foreach(lato in reteCompleta):
-        if(lato.side1 == lato.side2):
-            removeLato(lato)
-        else:
-            foreach(lato2 in reteCompleta):
-                if(lato.side1 == lato2.side1 && lato.side2 == lato2.side2):
-                    removeLato(lato2)
+        // semplificazione lati ridondanti del grafo...
+        foreach(lato in reteCompleta):
+            if(lato.side1 == lato.side2):
+                removeLato(lato)
+            else:
+                foreach(lato2 in reteCompleta):
+                    if(lato.side1 == lato2.side1 && lato.side2 == lato2.side2):
+                        removeLato(lato2)
+                    end
                 end
             end
         end
     end
-end
 
 *dubbio: così le funzioni di sicurezza fungono anche da router in alcuni casi con regole di inoltro*
 
@@ -269,48 +322,48 @@ end
 
 *Posizione: può essere individuata da un nodo, un lato, un nodo e un lato*
 
-vsnfConsultate = [ Authentication Function, Key Management Functions, Policy Management Functions ]
+    vsnfConsultate = [ Authentication Function, Key Management Functions, Policy Management Functions ]
 
-function reduceVSNFs(Grafo reteCompleta):
-    // stabilisco che le catene sono nell'ordine di priorità precedentemente deciso (lista ordinata)
-    // semplifico le catene vicine unendole...
-    foreach(catena in reteCompleta):
-        foreach(catenaVicina in catena):
-            if(catenaVicina in catena):
-                spostaLinks(catenaVicina, catena)   // sposta il punto di entrata e uscita dalla catena contenuta in quella che contiene
-                                                    // in corrispondenza delle funzioni richieste
-            elseif(catena in catenaVicina):
-                spostaLinks(catena, catenVicina)
-            else:
-                mergeCatene(catena, catenaVicina)   // unisce le catene nella prima, le ordina e trasferisce i link sulla prima
+    function reduceVSNFs(Grafo reteCompleta):
+        // stabilisco che le catene sono nell'ordine di priorità precedentemente deciso (lista ordinata)
+        // semplifico le catene vicine unendole...
+        foreach(catena in reteCompleta):
+            foreach(catenaVicina in catena):
+                if(catenaVicina in catena):
+                    spostaLinks(catenaVicina, catena)   // sposta il punto di entrata e uscita dalla catena contenuta in quella che contiene
+                                                        // in corrispondenza delle funzioni richieste
+                elseif(catena in catenaVicina):
+                    spostaLinks(catena, catenVicina)
+                else:
+                    mergeCatene(catena, catenaVicina)   // unisce le catene nella prima, le ordina e trasferisce i link sulla prima
+                end
             end
         end
-    end
 
-    // semplificazione funzioni da consultare...
-    contPerTipo = [ null ]*len(vsnfConsultate)
-    foreach(vert in estraiFunzioni(reteCompleta, vsnfConsultate)):      // estraiFunzioni() estrae dal grafo le funzioni del tipo indicato
-        if(contPerTipo[ vert.type ] == null):
-            contPerTipo[ vert.type ] = vert
-        else:
-            moveLinks(vert, contPerTipo[ vert.type ])
-            removeVert(vert)
+        // semplificazione funzioni da consultare...
+        contPerTipo = [ null ]*len(vsnfConsultate)
+        foreach(vert in estraiFunzioni(reteCompleta, vsnfConsultate)):      // estraiFunzioni() estrae dal grafo le funzioni del tipo indicato
+            if(contPerTipo[ vert.type ] == null):
+                contPerTipo[ vert.type ] = vert
+            else:
+                moveLinks(vert, contPerTipo[ vert.type ])
+                removeVert(vert)
+            end
         end
-    end
 
-    // semplificazione lati ridondanti del grafo...
-    foreach(lato in reteCompleta):
-        if(lato.side1 == lato.side2):
-            removeLato(lato)
-        else:
-            foreach(lato2 in reteCompleta):
-                if(lato.side1 == lato2.side1 && lato.side2 == lato2.side2):
-                    removeLato(lato2)
+        // semplificazione lati ridondanti del grafo...
+        foreach(lato in reteCompleta):
+            if(lato.side1 == lato.side2):
+                removeLato(lato)
+            else:
+                foreach(lato2 in reteCompleta):
+                    if(lato.side1 == lato2.side1 && lato.side2 == lato2.side2):
+                        removeLato(lato2)
+                    end
                 end
             end
         end
     end
-end
 
 
 **Pattern nell'esempio:**
@@ -325,4 +378,29 @@ end
 #### Con Analisi Flussi:
 L'approccio sembra più complicato di quello appena proposto semplificando i vicini. Analizzando e semplificando i flussi si rischia di togliere funzioni ridondanti per un flusso ma necessarie per un altro. Inoltre questo comporta percorsi obbligati per i dati, difficilmente dinamici.
 Altro approccio potrebbe essere di partire dalle intersezioni tra i flussi per preservare le funzioni in comune. Qui però si rischia di avere un filtraggio del flusso troppo tardi rispetto al punto di entrata nella rete con danneggiamento degli asset che è richiesto di proteggere.
+
+
+**Follow-up Possibili:**
+- provare deployment grafo risultato (pensarci)
+    - fattibile con approfondimento di alcune parti degli algoritmi già definiti
+    - challenges: trovare una funzione per tutte le possibili compbinazioni di funzioni, avere una funzione di costo, riuscire a manipolare i grafi come previsto dagli algoritmi già pensati
+- validazione scelta delle funzioni e quanto sia coerente con la situazione in cui ci si trova (pensarci)
+    - bisogna fare una valutazione delle funzioni scelte rispetto al singolo caso; non troppo semplice in quanto già l'idea dell'algoritmo nasce creando qualcosa che non è ad hoc per ogni situazione ma che riesce a generalizzare il problema a volte mettendo anche delle VSNFs in più rispetto al necessario
+
+**Follow-up Scelto:**
+- continuare a descrivere la metodologia sulla tesi
+- trovare un 20/30 cloud-native apps, elaborare il grafo aumentato a mano e automatizzare la riduzione del grafo per fare una statistica dell'efficacia della riduzione. Esempi o trovarne altri:
+    - Alibaba (x4?): https://github.com/alibaba/clusterdata
+    - Google: https://github.com/GoogleCloudPlatform/microservices-demo
+    - Uber: https://blog.dreamfactory.com/microservices-examples/
+    - https://microservices.io/patterns/microservices.html
+    - https://github.com/elgris/microservice-app-example
+    - Lego: https://www.simform.com/blog/microservices-examples/
+    - https://github.com/umermansoor/microservices
+    - https://github.com/ewolff/microservice-kubernetes
+    - https://github.com/nameko/nameko-examples
+    - https://github.com/piomin/sample-spring-kafka-microservices
+    - https://github.com/autopilotpattern/nodejs-example
+    - IBM: https://github.com/IBM/example-bank
+    - Dataset: https://github.com/clowee/MicroserviceDataset?tab=readme-ov-file
 

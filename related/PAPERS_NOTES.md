@@ -157,11 +157,6 @@ I think that the underlying theme of all the papers found during this research i
 All these objectives are achieved always taking into account with a good priority the security requirements of the deployment. The main goal is to achieve a compromise between performance and security needs.
 
 ---
-## Possible Thesis Arguments
-- An old function can be migrated to leave optimal place for a new one (re-organizing the network)
-- From Stateful Approach: Note that the only criterion for selecting the edge is not the current bandwidth, but the number of flows passed and their traffic rate are also important criteria. In terms of nodes, the number of processors and more memory are the criteria, but the created functions in the node and the traffic rate that is entered into them must also be considered. In this paper, a formula for combining these criteria for the cost of edge and node is not provided.
-- Generalize an already studied approach to every topology
-
 #### Observations:
 - Computing multiple paths and then place VSNFs not only considering the shortest seems preferred
 - In the last studies the main focus is on the performance of the application or of the deployment
@@ -188,8 +183,6 @@ Domande, queste security virtual network functions:
 - quante altre ce ne sono (fare ricerca)?
 - come sono legate ai pattern identificati in Fig. 2 in "Efficient Provisioning of Security Service Function Chaining Using Network Security Defense Patterns"?
 - importante definire il problema, noi vogliamo dare una prospettiva di sicurezza al placement in cui la funzione obiettivo è guidata dalla sicurezza, oltre che dalla performance (e.g., latenza, banda, risorse computazionali)
-
-Formulare bene il problema (i.e., la research question); oltre che alla letteratura puoi forse anche dare un occhio a vendor e blog specializzati, se contengono materiale utile a orientarsi.
 
 ---
 ## Material Found
@@ -234,4 +227,3 @@ Can this risk classification be quantified in numbers to compare it objectively?
 Can this classification be based on the specific deployment and placement of the services that are being used in the business application?
 How can a certain classification affect the application at runtime from the security point of view?
 
----
